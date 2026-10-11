@@ -3,278 +3,669 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M D International School - Portal Login</title>
+    <title>M D International School - Academic Portal</title>
+    <!-- Google Font: Plus Jakarta Sans for modern UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --school-red: #da291c;
-            --school-dark: #121826;
-            --card-bg: rgba(255, 255, 255, 0.88);
+            --primary: #da291c;
+            --primary-glow: rgba(218, 41, 28, 0.35);
+            --bg-dark: #090d16;
+            --surface: rgba(18, 24, 38, 0.75);
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --input-bg: rgba(15, 21, 34, 0.85);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
+            background-color: var(--bg-dark);
             min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background: #0f141d;
+            justify-content: center;
             overflow: hidden;
             position: relative;
             padding: 1.5rem;
+            color: var(--text-main);
         }
 
-        /* Continuous Floating Ambient Orbs */
-        .ambient-orb {
+        /* Fullscreen Interactive Canvas Background */
+        #particle-canvas {
             position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.6;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Vignette & Ambient Glow */
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(218, 41, 28, 0.15) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            pointer-events: none;
+            filter: blur(50px);
+        }
+
+        /* 3D Perspective Card Wrapper */
+        .card-perspective-wrapper {
+            perspective: 1200px;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        /* Main Login Card */
+        .login-card {
+            position: relative;
+            background: var(--surface);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 24px;
+            border: 1px solid var(--surface-border);
+            padding: 2.5rem 2.2rem;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6), 
+                        0 0 40px -10px var(--primary-glow);
+            transform-style: preserve-3d;
+            transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        /* Dynamic Cursor Spotlight Effect */
+        .card-spotlight {
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(218, 41, 28, 0.12), transparent 40%);
             pointer-events: none;
             z-index: 1;
         }
 
-        .orb-1 {
-            width: 320px;
-            height: 320px;
-            background: #da291c;
-            top: 10%;
-            left: 15%;
-            animation: driftOne 12s ease-in-out infinite alternate;
-        }
-
-        .orb-2 {
-            width: 380px;
-            height: 380px;
-            background: #ff5b4d;
-            bottom: 10%;
-            right: 15%;
-            animation: driftTwo 14s ease-in-out infinite alternate;
-        }
-
-        .orb-3 {
-            width: 250px;
-            height: 250px;
-            background: #3b82f6;
-            bottom: 40%;
-            left: 30%;
-            animation: driftThree 10s ease-in-out infinite alternate;
-            opacity: 0.25;
-        }
-
-        @keyframes driftOne {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(80px, 60px) scale(1.15); }
-            100% { transform: translate(-40px, 100px) scale(0.9); }
-        }
-
-        @keyframes driftTwo {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-70px, -50px) scale(1.2); }
-            100% { transform: translate(50px, -80px) scale(0.95); }
-        }
-
-        @keyframes driftThree {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(60px, -60px) scale(1.2); }
-        }
-
-        /* Glassmorphic Login Card */
-        .login-card {
+        .card-content {
             position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 420px;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
-            padding: 2.5rem 2rem;
-            animation: cardEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            z-index: 2;
         }
 
-        @keyframes cardEntrance {
-            0% { opacity: 0; transform: translateY(40px) scale(0.96); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
+        /* Logo Styling with Clean Float */
+        .logo-box {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
 
-        /* Logo Floating Animation */
-        .logo-wrap {
+        .logo-box img {
+            max-width: 220px;
+            height: auto;
+            border-radius: 12px;
+            background: #ffffff;
+            padding: 8px 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+            animation: floatingLogo 4s ease-in-out infinite;
+            filter: drop-shadow(0 4px 10px rgba(218, 41, 28, 0.2));
+        }
+
+        @keyframes floatingLogo {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* Header Info */
+        .header-title {
             text-align: center;
             margin-bottom: 1.5rem;
         }
 
-        .logo-wrap img {
-            max-width: 210px;
-            height: auto;
-            animation: gentleFloat 4s ease-in-out infinite;
-            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.1));
-        }
-
-        @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .login-title {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .login-title h2 {
-            color: var(--school-dark);
+        .header-title h1 {
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: -0.5px;
+            color: #ffffff;
         }
 
-        .login-title p {
-            color: #64748b;
-            font-size: 0.9rem;
-            margin-top: 0.3rem;
-        }
-
-        /* Animated Input Groups */
-        .input-group {
-            margin-bottom: 1.4rem;
-            position: relative;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 0.45rem;
+        .header-title p {
             font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Role Switcher Pill Tabs */
+        .role-switch {
+            display: flex;
+            position: relative;
+            background: rgba(10, 15, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 1.6rem;
+        }
+
+        .role-indicator {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: 4px;
+            width: calc(33.333% - 4px);
+            background: var(--primary);
+            border-radius: 9px;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 2px 10px rgba(218, 41, 28, 0.4);
+            z-index: 1;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 8px 0;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
             font-weight: 600;
-            color: #334155;
+            font-size: 0.82rem;
+            cursor: pointer;
+            position: relative;
+            z-index: 2;
             transition: color 0.3s ease;
         }
 
-        .input-group input {
+        .role-btn.active {
+            color: #ffffff;
+        }
+
+        /* Input Controls */
+        .input-group {
+            position: relative;
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 14px;
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-muted);
+            pointer-events: none;
+            transition: stroke 0.3s ease;
+        }
+
+        .input-wrapper input {
             width: 100%;
-            padding: 0.9rem 1.1rem;
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            padding: 12px 14px 12px 42px;
+            background: var(--input-bg);
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            color: #ffffff;
             font-size: 0.95rem;
             outline: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
         }
 
-        .input-group input:focus {
-            border-color: var(--school-red);
-            box-shadow: 0 0 0 4px rgba(218, 41, 28, 0.15);
-            transform: translateY(-1px);
+        .input-wrapper input::placeholder {
+            color: #475569;
         }
 
-        /* Animated Glowing Button */
+        .input-wrapper input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(218, 41, 28, 0.2);
+            background: rgba(18, 25, 42, 0.95);
+        }
+
+        .input-wrapper input:focus + .input-icon,
+        .input-wrapper:focus-within .input-icon {
+            stroke: var(--primary);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-password svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-muted);
+            transition: stroke 0.2s ease;
+        }
+
+        .toggle-password:hover svg {
+            stroke: #ffffff;
+        }
+
+        /* Action Row: Remember & Forgot */
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s ease;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Glowing Submit Button */
         .btn-submit {
             position: relative;
             width: 100%;
-            padding: 0.95rem;
-            margin-top: 0.8rem;
-            background: linear-gradient(135deg, #da291c 0%, #b81f14 100%);
+            padding: 13px;
+            background: linear-gradient(135deg, #e43326 0%, #b31d12 100%);
             border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.95rem;
             font-weight: 700;
+            letter-spacing: 0.3px;
             cursor: pointer;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(218, 41, 28, 0.35);
+            box-shadow: 0 6px 20px rgba(218, 41, 28, 0.4);
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        /* Light sweep shimmer effect across button */
-        .btn-submit::after {
+        /* Shimmer Sweep Animation */
+        .btn-submit::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -60%;
-            width: 40%;
-            height: 200%;
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(25deg);
-            animation: shimmer 3.5s infinite;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+            transform: skewX(-20deg);
+            animation: buttonGlint 4s infinite;
         }
 
-        @keyframes shimmer {
-            0% { left: -60%; }
-            30% { left: 130%; }
-            100% { left: 130%; }
+        @keyframes buttonGlint {
+            0%, 75% { left: -100%; }
+            100% { left: 200%; }
         }
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 26px rgba(218, 41, 28, 0.5);
+            box-shadow: 0 10px 28px rgba(218, 41, 28, 0.55);
         }
 
         .btn-submit:active {
             transform: translateY(0);
         }
 
-        /* Bottom helper links */
-        .card-footer {
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
+        /* Spinner for Loading State */
+        .spinner {
+            display: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
         }
 
-        .card-footer a {
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-submit.loading .btn-text {
+            display: none;
+        }
+
+        .btn-submit.loading .spinner {
+            display: block;
+        }
+
+        /* Footer */
+        .card-bottom {
+            margin-top: 1.8rem;
+            text-align: center;
+            font-size: 0.8rem;
             color: #64748b;
-            text-decoration: none;
-            transition: color 0.2s ease;
         }
 
-        .card-footer a:hover {
-            color: var(--school-red);
+        .card-bottom a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .card-bottom a:hover {
+            color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Glowing Background Elements -->
-    <div class="ambient-orb orb-1"></div>
-    <div class="ambient-orb orb-2"></div>
-    <div class="ambient-orb orb-3"></div>
+    <!-- Dynamic Canvas Animation -->
+    <canvas id="particle-canvas"></canvas>
+    <div class="ambient-glow"></div>
 
-    <!-- Login Container -->
-    <div class="login-card">
-        <div class="logo-wrap">
-            <img src="1000009874.jpg" alt="M D International School Logo">
+    <!-- 3D Perspective Card Wrapper -->
+    <div class="card-perspective-wrapper">
+        <div class="login-card" id="tilt-card">
+            <div class="card-spotlight" id="card-spotlight"></div>
+            
+            <div class="card-content">
+                <!-- School Logo -->
+                <div class="logo-box">
+                    <img src="1000009874.jpg" alt="M D International School Logo">
+                </div>
+
+                <div class="header-title">
+                    <h1>M D International School</h1>
+                    <p>Academic & Administrative Portal</p>
+                </div>
+
+                <!-- Animated Role Switcher -->
+                <div class="role-switch">
+                    <div class="role-indicator" id="role-indicator"></div>
+                    <button type="button" class="role-btn active" onclick="selectRole(0, 'Student')">Student</button>
+                    <button type="button" class="role-btn" onclick="selectRole(1, 'Teacher')">Teacher</button>
+                    <button type="button" class="role-btn" onclick="selectRole(2, 'Admin')">Admin</button>
+                </div>
+
+                <!-- Form -->
+                <form id="loginForm" action="/login-endpoint" method="POST">
+                    <input type="hidden" name="role" id="selected-role" value="Student">
+
+                    <!-- ID / Email Input -->
+                    <div class="input-group">
+                        <label class="input-label" id="id-label">Student ID or Email</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <input type="text" name="identifier" required placeholder="e.g. STU-2024-991" autocomplete="username">
+                        </div>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <div class="input-wrapper">
+                            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <input type="password" name="password" id="passwordInput" required placeholder="••••••••••••" autocomplete="current-password">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                                <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Additional controls -->
+                    <div class="form-actions">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember">
+                            <span>Keep me signed in</span>
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <span class="btn-text">Authenticate & Sign In</span>
+                        <div class="spinner"></div>
+                    </button>
+
+                    <!-- Footer -->
+                    <div class="card-bottom">
+                        <p>© 2026 MD International School • <a href="#">IT Support</a></p>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <div class="login-title">
-            <h2>School Portal</h2>
-            <p>Enter your credentials to continue</p>
-        </div>
-
-        <form action="/login-endpoint" method="POST">
-            <div class="input-group">
-                <label for="email">Student / Employee ID</label>
-                <input type="text" id="email" name="email" required placeholder="e.g. STU-2024-001">
-            </div>
-
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required placeholder="••••••••">
-            </div>
-
-            <button type="submit" class="btn-submit">Sign In</button>
-
-            <div class="card-footer">
-                <a href="#">Forgot password?</a>
-                <a href="#">Contact Administration</a>
-            </div>
-        </form>
     </div>
 
+    <!-- JavaScript for Animations, Canvas, and 3D Tilt -->
+    <script>
+        /* ================= 1. INTERACTIVE CANVAS CONSTELLATION ================= */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        let mouse = { x: null, y: null, radius: 140 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        let particles = [];
+        const particleCount = Math.floor((width * height) / 14000);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.7;
+                this.vy = (Math.random() - 0.5) * 0.7;
+                this.radius = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.3 ? 'rgba(218, 41, 28,' : 'rgba(255, 255, 255,';
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color + ' 0.6)';
+                ctx.fill();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Mouse interaction repulsion
+                if (mouse.x !== null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        let force = (mouse.radius - dist) / mouse.radius;
+                        this.x -= (dx / dist) * force * 3;
+                        this.y -= (dy / dist) * force * 3;
+                    }
+                }
+
+                this.draw();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Connect close particles with lines
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 110) {
+                        let alpha = 1 - (dist / 110);
+                        ctx.strokeStyle = `rgba(218, 41, 28, ${alpha * 0.25})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            particles.forEach(p => p.update());
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        /* ================= 2. 3D CARD TILT & CURSOR SPOTLIGHT ================= */
+        const card = document.getElementById('tilt-card');
+        const spotlight = document.getElementById('card-spotlight');
+
+        document.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Update radial spotlight position inside card
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+
+            // Check if mouse is near or on card for 3D tilt
+            const cardCenterX = rect.left + rect.width / 2;
+            const cardCenterY = rect.top + rect.height / 2;
+            const deltaX = (e.clientX - cardCenterX) / 25;
+            const deltaY = (e.clientY - cardCenterY) / 25;
+
+            // Restrict tilt within reasonable limits
+            const rotX = Math.max(Math.min(-deltaY, 8), -8);
+            const rotY = Math.max(Math.min(deltaX, 8), -8);
+
+            card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        });
+
+        // Reset rotation smoothly when cursor exits window
+        window.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+        });
+
+        /* ================= 3. ROLE SELECTOR LOGIC ================= */
+        function selectRole(index, roleName) {
+            const indicator = document.getElementById('role-indicator');
+            const buttons = document.querySelectorAll('.role-btn');
+            const idLabel = document.getElementById('id-label');
+            const roleInput = document.getElementById('selected-role');
+
+            indicator.style.transform = `translateX(${index * 100}%)`;
+            buttons.forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+
+            roleInput.value = roleName;
+
+            if (roleName === 'Student') {
+                idLabel.textContent = 'Student ID or Email';
+            } else if (roleName === 'Teacher') {
+                idLabel.textContent = 'Staff / Faculty ID';
+            } else {
+                idLabel.textContent = 'Administrator ID';
+            }
+        }
+
+        /* ================= 4. SHOW / HIDE PASSWORD ================= */
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                `;
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                `;
+            }
+        }
+
+        /* ================= 5. FORM SUBMISSION LOADING STATE ================= */
+        document.getElementById('loginForm').addEventListener('submit', function() {
+            const btn = document.getElementById('submitBtn');
+            btn.classList.add('loading');
+        });
+    </script>
 </body>
 </html>
