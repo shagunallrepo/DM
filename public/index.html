@@ -16,12 +16,12 @@
             --primary-glow: rgba(218, 41, 28, 0.4);
             --bg-dark: #070a10;
             /* Translucent Glass Surface */
-            --surface: rgba(12, 18, 32, 0.38);
+            --surface: rgba(12, 18, 32, 0.42);
             --surface-border: rgba(255, 255, 255, 0.18);
             --text-main: #f8fafc;
             --text-muted: #cbd5e1;
-            --input-bg: rgba(7, 12, 22, 0.42);
-            --input-border: rgba(255, 255, 255, 0.14);
+            --input-bg: rgba(7, 12, 22, 0.5);
+            --input-border: rgba(255, 255, 255, 0.16);
         }
 
         * {
@@ -45,26 +45,26 @@
             color: var(--text-main);
         }
 
-        /* 1. School Photo Background Layer */
+        /* 1. Background Layers - strictly non-interactive */
         .school-bg {
             position: fixed;
             inset: 0;
             background: url('1000009902.jpg') no-repeat center center / cover;
             z-index: 0;
             transform: scale(1.02);
+            pointer-events: none !important;
         }
 
-        /* 2. Soft Tint Scrim Overlay to Balance Background Exposure */
         .bg-overlay {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at center, rgba(6, 10, 18, 0.45) 0%, rgba(4, 7, 14, 0.72) 100%);
+            background: radial-gradient(circle at center, rgba(6, 10, 18, 0.45) 0%, rgba(4, 7, 14, 0.75) 100%);
             backdrop-filter: blur(3px);
             -webkit-backdrop-filter: blur(3px);
             z-index: 1;
+            pointer-events: none !important;
         }
 
-        /* 3. Interactive Particles Canvas */
         #particle-canvas {
             position: fixed;
             top: 0;
@@ -72,10 +72,9 @@
             width: 100%;
             height: 100%;
             z-index: 2;
-            pointer-events: none;
+            pointer-events: none !important;
         }
 
-        /* Ambient Glow Spheres */
         .ambient-glow {
             position: fixed;
             width: min(520px, 90vw);
@@ -85,16 +84,18 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 3;
-            pointer-events: none;
+            pointer-events: none !important;
             filter: blur(55px);
         }
 
-        /* 4. Login Card Perspective Container */
+        /* 2. Login Card Perspective Container with High Touch Priority */
         .card-perspective-wrapper {
-            z-index: 10;
+            position: relative;
+            z-index: 50; /* Guarantees card sits above all background elements */
             width: 100%;
             max-width: 420px;
             margin: auto;
+            pointer-events: auto !important;
         }
 
         /* Translucent Frosted Glass Card */
@@ -111,7 +112,7 @@
                 0 0 35px -10px var(--primary-glow),
                 inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
             overflow: hidden;
-            transition: box-shadow 0.3s ease;
+            pointer-events: auto !important;
         }
 
         /* Desktop-only 3D Tilt */
@@ -132,19 +133,18 @@
             }
         }
 
-        /* Spotlight Hover Glow */
         .card-spotlight {
             position: absolute;
             inset: 0;
             border-radius: 24px;
             background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(218, 41, 28, 0.18), transparent 50%);
-            pointer-events: none;
+            pointer-events: none !important;
             z-index: 1;
         }
 
         .card-content {
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
 
         /* Logo Badge */
@@ -163,7 +163,8 @@
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            animation: gentleFloat 4s ease-in-out infinite;
+            min-height: 55px;
+            min-width: 160px;
         }
 
         .logo-badge img {
@@ -171,11 +172,6 @@
             width: 100%;
             height: auto;
             display: block;
-        }
-
-        @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
         }
 
         /* Header Info */
@@ -199,16 +195,17 @@
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
         }
 
-        /* Translucent Role Switcher Tabs */
+        /* Role Switcher Tabs */
         .role-switch {
             display: flex;
             position: relative;
-            background: rgba(6, 10, 18, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(6, 10, 18, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             padding: 4px;
             margin-bottom: 1.35rem;
             backdrop-filter: blur(10px);
+            z-index: 20;
         }
 
         .role-indicator {
@@ -222,11 +219,12 @@
             transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
             box-shadow: 0 2px 10px rgba(218, 41, 28, 0.45);
             z-index: 1;
+            pointer-events: none;
         }
 
         .role-btn {
             flex: 1;
-            padding: 8px 0;
+            padding: 9px 0;
             background: transparent;
             border: none;
             color: var(--text-muted);
@@ -236,13 +234,14 @@
             position: relative;
             z-index: 2;
             transition: color 0.25s ease;
+            touch-action: manipulation;
         }
 
         .role-btn.active {
             color: #ffffff;
         }
 
-        /* Translucent Form Inputs */
+        /* Form Inputs */
         .input-group {
             position: relative;
             margin-bottom: 1.15rem;
@@ -296,7 +295,7 @@
         .input-wrapper input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(218, 41, 28, 0.25);
-            background: rgba(10, 16, 28, 0.6);
+            background: rgba(10, 16, 28, 0.75);
         }
 
         .input-wrapper:focus-within .input-icon {
@@ -306,13 +305,15 @@
         /* Password Toggle */
         .toggle-password {
             position: absolute;
-            right: 12px;
+            right: 8px;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 6px;
+            padding: 8px;
             display: flex;
             align-items: center;
+            touch-action: manipulation;
+            z-index: 5;
         }
 
         .toggle-password svg {
@@ -342,6 +343,7 @@
             color: var(--text-muted);
             cursor: pointer;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+            touch-action: manipulation;
         }
 
         .remember-me input {
@@ -354,6 +356,7 @@
             text-decoration: none;
             font-weight: 600;
             text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+            touch-action: manipulation;
         }
 
         .forgot-link:hover {
@@ -380,6 +383,8 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            touch-action: manipulation;
+            z-index: 20;
         }
 
         .btn-submit::before {
@@ -408,14 +413,14 @@
             transform: translateY(0);
         }
 
-        /* 6. Enter As A Guest Button */
+        /* 3. Bulletproof Guest Link Button */
         .btn-guest {
             position: relative;
             width: 100%;
             padding: 12px;
-            margin-top: 0.8rem;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-top: 0.85rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 12px;
             color: #ffffff;
             font-size: 0.86rem;
@@ -430,6 +435,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            text-decoration: none;
+            touch-action: manipulation;
+            z-index: 20;
         }
 
         .btn-guest svg {
@@ -440,14 +448,10 @@
         }
 
         .btn-guest:hover {
-            background: rgba(255, 255, 255, 0.16);
-            border-color: rgba(255, 255, 255, 0.35);
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
             box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
-        }
-
-        .btn-guest:hover svg {
-            stroke: #ffffff;
         }
 
         .btn-guest:active {
@@ -477,7 +481,7 @@
         }
 
         .card-bottom {
-            margin-top: 1.35rem;
+            margin-top: 1.45rem;
             text-align: center;
             font-size: 0.78rem;
             color: var(--text-muted);
@@ -496,17 +500,17 @@
 </head>
 <body>
 
-    <!-- 1. School Photo Background Layer -->
+    <!-- 1. School Photo Background Layer (Pointer Events Off) -->
     <div class="school-bg"></div>
 
-    <!-- 2. Translucent Tint Scrim -->
+    <!-- 2. Dark Tint Scrim (Pointer Events Off) -->
     <div class="bg-overlay"></div>
 
-    <!-- 3. Animated Particles Canvas -->
+    <!-- 3. Animated Particles Canvas (Pointer Events Off) -->
     <canvas id="particle-canvas"></canvas>
     <div class="ambient-glow"></div>
 
-    <!-- 4. Translucent Login Card -->
+    <!-- 4. Interactive Login Card (High Z-Index, Full Touch Priority) -->
     <div class="card-perspective-wrapper">
         <div class="login-card" id="tilt-card">
             <div class="card-spotlight" id="card-spotlight"></div>
@@ -515,7 +519,7 @@
                 <!-- School Logo Badge -->
                 <div class="logo-box">
                     <div class="logo-badge">
-                        <img id="schoolLogo" src="1000009874.jpg" alt="M D International School Logo">
+                        <img id="schoolLogo" src="/api/logo" alt="M D International School Logo">
                     </div>
                 </div>
 
@@ -527,13 +531,13 @@
                 <!-- Role Selector -->
                 <div class="role-switch">
                     <div class="role-indicator" id="role-indicator"></div>
-                    <button type="button" class="role-btn active" onclick="selectRole(0, 'Student')">Student</button>
-                    <button type="button" class="role-btn" onclick="selectRole(1, 'Teacher')">Teacher</button>
-                    <button type="button" class="role-btn" onclick="selectRole(2, 'Admin')">Admin</button>
+                    <button type="button" class="role-btn active" id="btnStudent" onclick="selectRole(0, 'Student')">Student</button>
+                    <button type="button" class="role-btn" id="btnTeacher" onclick="selectRole(1, 'Teacher')">Teacher</button>
+                    <button type="button" class="role-btn" id="btnAdmin" onclick="selectRole(2, 'Admin')">Admin</button>
                 </div>
 
                 <!-- Form -->
-                <form id="loginForm" action="/login-endpoint" method="POST">
+                <form id="loginForm" method="POST" action="/login-endpoint">
                     <input type="hidden" name="role" id="selected-role" value="Student">
 
                     <!-- ID Input -->
@@ -575,21 +579,21 @@
                         <a href="#" class="forgot-link">Forgot password?</a>
                     </div>
 
-                    <!-- Submit Button -->
+                    <!-- Authenticate & Sign In Button -->
                     <button type="submit" class="btn-submit" id="submitBtn">
                         <span class="btn-text">Authenticate & Sign In</span>
                         <div class="spinner"></div>
                     </button>
 
-                    <!-- Enter As A Guest Button -->
-                    <button type="button" class="btn-guest" id="guestBtn" onclick="enterAsGuest()">
+                    <!-- Direct Navigation Guest Button -->
+                    <a href="home.html" class="btn-guest" id="guestBtn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
                             <polyline points="10 17 15 12 10 7"></polyline>
                             <line x1="15" y1="12" x2="3" y2="12"></line>
                         </svg>
                         <span>ENTER AS A GUEST</span>
-                    </button>
+                    </a>
 
                     <!-- Footer -->
                     <div class="card-bottom">
@@ -601,136 +605,193 @@
     </div>
 
     <script>
-        /* ================= 0. LOGO AUTO-LOADER ================= */
-        const logoImg = document.getElementById('schoolLogo');
-        fetch('MD International School Logo (3).html')
-            .then(res => res.text())
-            .then(html => {
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const img = doc.querySelector('img');
-                if (img && img.src) logoImg.src = img.src;
-            })
-            .catch(() => {
-                logoImg.src = '1000009874.jpg';
+        /* ================= 0. ROBUST LOGO AUTO-LOADER ================= */
+        (function loadLogo() {
+            const logoImg = document.getElementById('schoolLogo');
+            if (!logoImg) return;
+
+            // Try loading from encoded filename directly first
+            const encodedFile = encodeURI('MD International School Logo (3).html');
+            fetch(encodedFile)
+                .then(r => r.text())
+                .then(html => {
+                    const match = html.match(/data:image\/[^;]+;base64,[^\s"']+/);
+                    if (match && match[0]) {
+                        logoImg.src = match[0];
+                    }
+                })
+                .catch(() => {
+                    // Fallback to server endpoint
+                    logoImg.src = '/api/logo';
+                    logoImg.onerror = function() {
+                        this.src = '1000009874.jpg';
+                    };
+                });
+        })();
+
+        /* ================= 1. INSTANT ADMIN AUTHENTICATION ================= */
+        const loginForm = document.getElementById('loginForm');
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                const idInput = document.getElementById('identifierInput');
+                const passInput = document.getElementById('passwordInput');
+                const btn = document.getElementById('submitBtn');
+
+                const identifier = idInput ? idInput.value.trim() : '';
+                const password = passInput ? passInput.value.trim() : '';
+
+                // If Admin Shagun logs in, grant immediate session and redirect
+                if (identifier === 'Shagun' && password === 'Developer') {
+                    e.preventDefault();
+                    if (btn) btn.classList.add('loading');
+                    sessionStorage.setItem('adminToken', 'admin-auth-session-token-9988');
+                    window.location.href = 'admin.html?auth=admin-auth-session-token-9988';
+                    return false;
+                }
+
+                // If Guest submitted form
+                if (identifier === 'GUEST-USER') {
+                    e.preventDefault();
+                    window.location.href = 'home.html';
+                    return false;
+                }
+
+                // Otherwise allow native submit to /login-endpoint
+                if (btn) btn.classList.add('loading');
+            });
+        }
+
+        /* ================= 2. ROLE SELECTOR ================= */
+        function selectRole(index, roleName) {
+            const indicator = document.getElementById('role-indicator');
+            const buttons = document.querySelectorAll('.role-btn');
+            const idLabel = document.getElementById('id-label');
+            const roleInput = document.getElementById('selected-role');
+            const idField = document.getElementById('identifierInput');
+
+            if (indicator) indicator.style.transform = `translateX(${index * 100}%)`;
+            buttons.forEach((btn, i) => {
+                if (btn) btn.classList.toggle('active', i === index);
             });
 
- 
-/* ================= 1. GUEST LOGIN HANDLER ================= */
-function enterAsGuest() {
-    const submitBtn = document.getElementById('submitBtn');
-    if (submitBtn) submitBtn.classList.add('loading');
-    
-    // Redirect directly to the School Portal Home Page
-    window.location.href = 'home.html';
-}
-        /* ================= 2. CANVAS PARTICLES ================= */
+            if (roleInput) roleInput.value = roleName;
+
+            if (idLabel && idField) {
+                if (roleName === 'Student') {
+                    idLabel.textContent = 'Student ID or Email';
+                    idField.placeholder = 'e.g. STU-2026-001';
+                } else if (roleName === 'Teacher') {
+                    idLabel.textContent = 'Staff / Faculty ID';
+                    idField.placeholder = 'e.g. TCH-2026-101';
+                } else {
+                    idLabel.textContent = 'Administrator ID';
+                    idField.placeholder = 'e.g. Shagun';
+                }
+            }
+        }
+
+        /* ================= 3. SHOW / HIDE PASSWORD ================= */
+        function togglePasswordVisibility() {
+            const pwdInput = document.getElementById('passwordInput');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (!pwdInput || !eyeIcon) return;
+
+            if (pwdInput.type === 'password') {
+                pwdInput.type = 'text';
+                eyeIcon.innerHTML = `
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                `;
+            } else {
+                pwdInput.type = 'password';
+                eyeIcon.innerHTML = `
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                `;
+            }
+        }
+
+        /* ================= 4. CANVAS PARTICLES ================= */
         const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
 
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+                initParticles();
+            });
 
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            let particles = [];
+            const isMobile = window.innerWidth <= 768;
+            const particleCount = isMobile ? 25 : Math.floor((width * height) / 18000);
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.5;
+                    this.vy = (Math.random() - 0.5) * 0.5;
+                    this.radius = Math.random() * 1.6 + 1;
+                    this.color = Math.random() > 0.35 ? 'rgba(218, 41, 28,' : 'rgba(255, 255, 255,';
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color + ' 0.5)';
+                    ctx.fill();
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > width) this.vx *= -1;
+                    if (this.y < 0 || this.y > height) this.vy *= -1;
+                    this.draw();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
             initParticles();
-        });
 
-        let mouse = { x: null, y: null, radius: 120 };
+            function animateCanvas() {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        let dx = particles[i].x - particles[j].x;
+                        let dy = particles[i].y - particles[j].y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
 
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.clientX;
-            mouse.y = e.clientY;
-        });
-
-        window.addEventListener('mouseleave', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-
-        let particles = [];
-        const isMobile = window.innerWidth <= 768;
-        const particleCount = isMobile ? 30 : Math.floor((width * height) / 18000);
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * width;
-                this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.6;
-                this.vy = (Math.random() - 0.5) * 0.6;
-                this.radius = Math.random() * 1.8 + 1;
-                this.color = Math.random() > 0.35 ? 'rgba(218, 41, 28,' : 'rgba(255, 255, 255,';
-            }
-
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color + ' 0.5)';
-                ctx.fill();
-            }
-
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-
-                if (this.x < 0 || this.x > width) this.vx *= -1;
-                if (this.y < 0 || this.y > height) this.vy *= -1;
-
-                if (mouse.x !== null) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
-                    let dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < mouse.radius) {
-                        let force = (mouse.radius - dist) / mouse.radius;
-                        this.x -= (dx / dist) * force * 2.5;
-                        this.y -= (dy / dist) * force * 2.5;
+                        if (dist < 90) {
+                            let alpha = 1 - (dist / 90);
+                            ctx.strokeStyle = `rgba(218, 41, 28, ${alpha * 0.2})`;
+                            ctx.lineWidth = 0.6;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
                     }
                 }
-
-                this.draw();
+                particles.forEach(p => p.update());
+                requestAnimationFrame(animateCanvas);
             }
+            animateCanvas();
         }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
-        initParticles();
-
-        function animateCanvas() {
-            ctx.clearRect(0, 0, width, height);
-
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    let dx = particles[i].x - particles[j].x;
-                    let dy = particles[i].y - particles[j].y;
-                    let dist = Math.sqrt(dx * dx + dy * dy);
-
-                    if (dist < 100) {
-                        let alpha = 1 - (dist / 100);
-                        ctx.strokeStyle = `rgba(218, 41, 28, ${alpha * 0.22})`;
-                        ctx.lineWidth = 0.7;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            particles.forEach(p => p.update());
-            requestAnimationFrame(animateCanvas);
-        }
-        animateCanvas();
-
-        /* ================= 3. DESKTOP-ONLY 3D TILT ================= */
+        /* ================= 5. DESKTOP-ONLY 3D TILT ================= */
         const card = document.getElementById('tilt-card');
         const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-        if (canHover) {
+        if (canHover && card) {
             document.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -754,54 +815,6 @@ function enterAsGuest() {
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
             });
         }
-
-        /* ================= 4. ROLE SELECTOR ================= */
-        function selectRole(index, roleName) {
-            const indicator = document.getElementById('role-indicator');
-            const buttons = document.querySelectorAll('.role-btn');
-            const idLabel = document.getElementById('id-label');
-            const roleInput = document.getElementById('selected-role');
-
-            indicator.style.transform = `translateX(${index * 100}%)`;
-            buttons.forEach((btn, i) => {
-                btn.classList.toggle('active', i === index);
-            });
-
-            roleInput.value = roleName;
-
-            if (roleName === 'Student') {
-                idLabel.textContent = 'Student ID or Email';
-            } else if (roleName === 'Teacher') {
-                idLabel.textContent = 'Staff / Faculty ID';
-            } else {
-                idLabel.textContent = 'Administrator ID';
-            }
-        }
-
-        /* ================= 5. SHOW / HIDE PASSWORD ================= */
-        function togglePasswordVisibility() {
-            const pwdInput = document.getElementById('passwordInput');
-            const eyeIcon = document.getElementById('eyeIcon');
-
-            if (pwdInput.type === 'password') {
-                pwdInput.type = 'text';
-                eyeIcon.innerHTML = `
-                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                    <line x1="1" y1="1" x2="23" y2="23"></line>
-                `;
-            } else {
-                pwdInput.type = 'password';
-                eyeIcon.innerHTML = `
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                `;
-            }
-        }
-
-
-/* ================= 6. FORM SUBMISSION ================= */
-document.getElementById('loginForm').addEventListener('submit', function() {
-    const btn = document.getElementById('submitBtn');
-    if (btn) btn.classList.add('loading');
-    // Allows the native form submit to /login-endpoint to process immediately
-});
+    </script>
+</body>
+</html>
