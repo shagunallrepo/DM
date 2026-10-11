@@ -1,0 +1,12 @@
+{
+  "name": "school-login-portal",
+  "version": "1.0.0",
+  "description": "MD International School Login Portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
