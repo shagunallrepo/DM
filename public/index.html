@@ -190,7 +190,7 @@
             color: #ffffff;
         }
 
-        /* 4. Inputs */
+        /* 4. Form Inputs */
         .input-group {
             position: relative;
             margin-bottom: 1.25rem;
@@ -248,7 +248,7 @@
             stroke: var(--primary);
         }
 
-        /* Password Toggle */
+        /* Password Visibility Toggle */
         .toggle-password {
             position: absolute;
             right: 14px;
@@ -271,7 +271,7 @@
             stroke: #ffffff;
         }
 
-        /* Options Row */
+        /* Form Actions */
         .form-actions {
             display: flex;
             justify-content: space-between;
@@ -375,7 +375,7 @@
             display: block;
         }
 
-        /* Card Footer */
+        /* Footer */
         .card-bottom {
             margin-top: 1.8rem;
             text-align: center;
@@ -396,20 +396,19 @@
 </head>
 <body>
 
-    <!-- Interactive Canvas Constellation -->
+    <!-- Interactive Canvas Particle Network -->
     <canvas id="particle-canvas"></canvas>
     <div class="ambient-glow"></div>
 
-    <!-- 3D Perspective Wrapper -->
+    <!-- 3D Perspective Card Wrapper -->
     <div class="card-perspective-wrapper">
         <div class="login-card" id="tilt-card">
             <div class="card-spotlight" id="card-spotlight"></div>
             
             <div class="card-content">
-                <!-- School Logo -->
+                <!-- School Logo: Insert your base64 string directly into src below -->
                 <div class="logo-box">
-                    <!-- Note: You can keep 1000009874.jpg or paste your data:image/jpeg;base64,... string here directly -->
-                    <img id="schoolLogo" src="1000009874.jpg" alt="M D International School Logo">
+                    <img id="schoolLogo" src="data:image/jpeg;base64,YOUR_BASE64_STRING_HERE" alt="M D International School Logo">
                 </div>
 
                 <div class="header-title">
@@ -417,7 +416,7 @@
                     <p>Academic & Administration Portal</p>
                 </div>
 
-                <!-- Animated Role Switcher -->
+                <!-- Animated Role Tabs -->
                 <div class="role-switch">
                     <div class="role-indicator" id="role-indicator"></div>
                     <button type="button" class="role-btn active" onclick="selectRole(0, 'Student')">Student</button>
@@ -425,7 +424,7 @@
                     <button type="button" class="role-btn" onclick="selectRole(2, 'Admin')">Admin</button>
                 </div>
 
-                <!-- Login Form -->
+                <!-- Form -->
                 <form id="loginForm" action="/login-endpoint" method="POST">
                     <input type="hidden" name="role" id="selected-role" value="Student">
 
@@ -441,7 +440,7 @@
                         </div>
                     </div>
 
-                    <!-- Password Input with Toggle -->
+                    <!-- Password with Toggle -->
                     <div class="input-group">
                         <label class="input-label">Password</label>
                         <div class="input-wrapper">
@@ -459,7 +458,7 @@
                         </div>
                     </div>
 
-                    <!-- Actions -->
+                    <!-- Options -->
                     <div class="form-actions">
                         <label class="remember-me">
                             <input type="checkbox" name="remember">
@@ -484,6 +483,27 @@
     </div>
 
     <script>
+        /* ================= 0. AUTOMATIC LOGO LOADER FALLBACK ================= */
+        // If you place 'MD International School Logo (3).html' in your 'public' folder,
+        // this script extracts the exact base64 image data URI automatically.
+        const logoImg = document.getElementById('schoolLogo');
+        if (logoImg.getAttribute('src').includes('YOUR_BASE64_STRING_HERE')) {
+            fetch('MD International School Logo (3).html')
+                .then(res => res.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const img = doc.querySelector('img');
+                    if (img && img.src) {
+                        logoImg.src = img.src;
+                    }
+                })
+                .catch(() => {
+                    // Fallback to local image file if present
+                    logoImg.src = '1000009874.jpg';
+                });
+        }
+
         /* ================= 1. INTERACTIVE CANVAS CONSTELLATION ================= */
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
