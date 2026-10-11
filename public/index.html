@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>M D International School - Academic Portal</title>
     <!-- Google Font: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,12 +14,12 @@
             --primary: #da291c;
             --primary-hover: #b81f14;
             --primary-glow: rgba(218, 41, 28, 0.35);
-            --bg-dark: #090d16;
-            --surface: rgba(18, 24, 38, 0.78);
+            --bg-dark: #070a10;
+            --surface: rgba(16, 22, 34, 0.85);
             --surface-border: rgba(255, 255, 255, 0.08);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --input-bg: rgba(15, 21, 34, 0.85);
+            --input-bg: rgba(11, 16, 26, 0.9);
         }
 
         * {
@@ -27,23 +27,25 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-dark);
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
-            padding: 1.5rem;
+            padding: 1.25rem 1rem;
             color: var(--text-main);
         }
 
-        /* 1. Fullscreen Interactive Canvas Background */
+        /* 1. Interactive Canvas Background */
         #particle-canvas {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -54,48 +56,66 @@
 
         /* Ambient Glow Spheres */
         .ambient-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(218, 41, 28, 0.16) 0%, transparent 70%);
+            position: fixed;
+            width: min(500px, 90vw);
+            height: min(500px, 90vw);
+            background: radial-gradient(circle, rgba(218, 41, 28, 0.18) 0%, transparent 70%);
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 2;
             pointer-events: none;
-            filter: blur(60px);
+            filter: blur(50px);
         }
 
-        /* 2. 3D Perspective Card Wrapper */
+        /* 2. Card Perspective Wrapper */
         .card-perspective-wrapper {
-            perspective: 1200px;
             z-index: 10;
             width: 100%;
-            max-width: 440px;
+            max-width: 420px;
+            margin: auto;
         }
 
         /* Main Glassmorphic Login Card */
         .login-card {
             position: relative;
             background: var(--surface);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
             border: 1px solid var(--surface-border);
-            padding: 2.5rem 2.2rem;
-            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.65), 
-                        0 0 40px -10px var(--primary-glow);
-            transform-style: preserve-3d;
-            transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+            padding: 2.2rem 1.8rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 
+                        0 0 35px -10px var(--primary-glow);
             overflow: hidden;
+            transition: box-shadow 0.3s ease;
         }
 
-        /* Dynamic Cursor Spotlight Effect */
+        /* 3D Tilt is strictly enabled for desktop mice only */
+        @media (hover: hover) and (pointer: fine) {
+            .card-perspective-wrapper {
+                perspective: 1200px;
+            }
+            .login-card {
+                transform-style: preserve-3d;
+                transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+            }
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 1.8rem 1.3rem;
+                border-radius: 20px;
+            }
+        }
+
+        /* Spotlight Effect */
         .card-spotlight {
             position: absolute;
             inset: 0;
             border-radius: 24px;
-            background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(218, 41, 28, 0.14), transparent 45%);
+            background: radial-gradient(350px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(218, 41, 28, 0.15), transparent 50%);
             pointer-events: none;
             z-index: 1;
         }
@@ -105,58 +125,65 @@
             z-index: 2;
         }
 
-        /* Floating Logo Container */
+        /* Refined School Badge Container */
         .logo-box {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
-        .logo-box img {
-            max-width: 230px;
-            height: auto;
-            border-radius: 12px;
+        .logo-badge {
             background: #ffffff;
-            padding: 8px 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-            animation: floatingLogo 4s ease-in-out infinite;
-            filter: drop-shadow(0 4px 12px rgba(218, 41, 28, 0.25));
+            padding: 10px 18px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(218, 41, 28, 0.25);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            animation: gentleFloat 4s ease-in-out infinite;
         }
 
-        @keyframes floatingLogo {
+        .logo-badge img {
+            max-width: 190px;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @keyframes gentleFloat {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-7px); }
+            50% { transform: translateY(-5px); }
         }
 
-        /* Typography */
+        /* Header Info */
         .header-title {
             text-align: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.4rem;
         }
 
         .header-title h1 {
-            font-size: 1.45rem;
+            font-size: 1.35rem;
             font-weight: 700;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
             color: #ffffff;
         }
 
         .header-title p {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: var(--text-muted);
-            margin-top: 4px;
+            margin-top: 3px;
         }
 
         /* 3. Role Switcher Tabs */
         .role-switch {
             display: flex;
             position: relative;
-            background: rgba(10, 15, 26, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(8, 12, 20, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.07);
             border-radius: 12px;
             padding: 4px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.4rem;
         }
 
         .role-indicator {
@@ -167,7 +194,7 @@
             width: calc(33.333% - 4px);
             background: var(--primary);
             border-radius: 9px;
-            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
             box-shadow: 0 2px 10px rgba(218, 41, 28, 0.45);
             z-index: 1;
         }
@@ -183,22 +210,22 @@
             cursor: pointer;
             position: relative;
             z-index: 2;
-            transition: color 0.3s ease;
+            transition: color 0.25s ease;
         }
 
         .role-btn.active {
             color: #ffffff;
         }
 
-        /* 4. Form Inputs */
+        /* 4. Form Controls */
         .input-group {
             position: relative;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1.15rem;
         }
 
         .input-label {
             display: block;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--text-muted);
             margin-bottom: 6px;
@@ -219,7 +246,7 @@
             height: 18px;
             stroke: var(--text-muted);
             pointer-events: none;
-            transition: stroke 0.3s ease;
+            transition: stroke 0.25s ease;
         }
 
         .input-wrapper input {
@@ -229,7 +256,7 @@
             border: 1px solid var(--surface-border);
             border-radius: 12px;
             color: #ffffff;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             outline: none;
             transition: all 0.25s ease;
         }
@@ -241,21 +268,21 @@
         .input-wrapper input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(218, 41, 28, 0.2);
-            background: rgba(18, 25, 42, 0.95);
+            background: rgba(14, 20, 32, 0.95);
         }
 
         .input-wrapper:focus-within .input-icon {
             stroke: var(--primary);
         }
 
-        /* Password Visibility Toggle */
+        /* Password Toggle */
         .toggle-password {
             position: absolute;
-            right: 14px;
+            right: 12px;
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
+            padding: 6px;
             display: flex;
             align-items: center;
         }
@@ -271,13 +298,13 @@
             stroke: #ffffff;
         }
 
-        /* Form Actions */
+        /* Options */
         .form-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.82rem;
-            margin-bottom: 1.5rem;
+            font-size: 0.8rem;
+            margin-bottom: 1.4rem;
         }
 
         .remember-me {
@@ -297,14 +324,13 @@
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
-            transition: opacity 0.2s ease;
         }
 
         .forgot-link:hover {
             text-decoration: underline;
         }
 
-        /* 5. Glowing Shimmer Submit Button */
+        /* 5. Submit Button */
         .btn-submit {
             position: relative;
             width: 100%;
@@ -319,7 +345,7 @@
             cursor: pointer;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(218, 41, 28, 0.4);
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -333,7 +359,7 @@
             left: -100%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
             transform: skewX(-20deg);
             animation: buttonGlint 4s infinite;
         }
@@ -352,7 +378,6 @@
             transform: translateY(0);
         }
 
-        /* Loading Spinner */
         .spinner {
             display: none;
             width: 18px;
@@ -375,18 +400,16 @@
             display: block;
         }
 
-        /* Footer */
         .card-bottom {
-            margin-top: 1.8rem;
+            margin-top: 1.5rem;
             text-align: center;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             color: #64748b;
         }
 
         .card-bottom a {
             color: var(--text-muted);
             text-decoration: none;
-            transition: color 0.2s;
         }
 
         .card-bottom a:hover {
@@ -396,19 +419,21 @@
 </head>
 <body>
 
-    <!-- Interactive Canvas Particle Network -->
+    <!-- Particle Network Canvas -->
     <canvas id="particle-canvas"></canvas>
     <div class="ambient-glow"></div>
 
-    <!-- 3D Perspective Card Wrapper -->
+    <!-- Perspective Container -->
     <div class="card-perspective-wrapper">
         <div class="login-card" id="tilt-card">
             <div class="card-spotlight" id="card-spotlight"></div>
             
             <div class="card-content">
-                <!-- School Logo: Insert your base64 string directly into src below -->
+                <!-- Styled Logo Badge -->
                 <div class="logo-box">
-                    <img id="schoolLogo" src="data:image/jpeg;base64,YOUR_BASE64_STRING_HERE" alt="M D International School Logo">
+                    <div class="logo-badge">
+                        <img id="schoolLogo" src="1000009874.jpg" alt="M D International School Logo">
+                    </div>
                 </div>
 
                 <div class="header-title">
@@ -416,7 +441,7 @@
                     <p>Academic & Administration Portal</p>
                 </div>
 
-                <!-- Animated Role Tabs -->
+                <!-- Role Selector -->
                 <div class="role-switch">
                     <div class="role-indicator" id="role-indicator"></div>
                     <button type="button" class="role-btn active" onclick="selectRole(0, 'Student')">Student</button>
@@ -428,7 +453,7 @@
                 <form id="loginForm" action="/login-endpoint" method="POST">
                     <input type="hidden" name="role" id="selected-role" value="Student">
 
-                    <!-- ID or Email -->
+                    <!-- ID Input -->
                     <div class="input-group">
                         <label class="input-label" id="id-label">Student ID or Email</label>
                         <div class="input-wrapper">
@@ -440,7 +465,7 @@
                         </div>
                     </div>
 
-                    <!-- Password with Toggle -->
+                    <!-- Password Input -->
                     <div class="input-group">
                         <label class="input-label">Password</label>
                         <div class="input-wrapper">
@@ -483,28 +508,23 @@
     </div>
 
     <script>
-        /* ================= 0. AUTOMATIC LOGO LOADER FALLBACK ================= */
-        // If you place 'MD International School Logo (3).html' in your 'public' folder,
-        // this script extracts the exact base64 image data URI automatically.
+        /* ================= 0. LOGO AUTO-LOADER ================= */
         const logoImg = document.getElementById('schoolLogo');
-        if (logoImg.getAttribute('src').includes('YOUR_BASE64_STRING_HERE')) {
-            fetch('MD International School Logo (3).html')
-                .then(res => res.text())
-                .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const img = doc.querySelector('img');
-                    if (img && img.src) {
-                        logoImg.src = img.src;
-                    }
-                })
-                .catch(() => {
-                    // Fallback to local image file if present
-                    logoImg.src = '1000009874.jpg';
-                });
-        }
+        // If the separate logo HTML is in public/, read its base64 string automatically
+        fetch('MD International School Logo (3).html')
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const img = doc.querySelector('img');
+                if (img && img.src) logoImg.src = img.src;
+            })
+            .catch(() => {
+                // Otherwise fall back to local file
+                logoImg.src = '1000009874.jpg';
+            });
 
-        /* ================= 1. INTERACTIVE CANVAS CONSTELLATION ================= */
+        /* ================= 1. CANVAS PARTICLES ================= */
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -517,7 +537,7 @@
             initParticles();
         });
 
-        let mouse = { x: null, y: null, radius: 140 };
+        let mouse = { x: null, y: null, radius: 120 };
 
         window.addEventListener('mousemove', (e) => {
             mouse.x = e.clientX;
@@ -530,22 +550,23 @@
         });
 
         let particles = [];
-        const particleCount = Math.floor((width * height) / 14000);
+        const isMobile = window.innerWidth <= 768;
+        const particleCount = isMobile ? 35 : Math.floor((width * height) / 16000);
 
         class Particle {
             constructor() {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.vx = (Math.random() - 0.5) * 0.7;
-                this.vy = (Math.random() - 0.5) * 0.7;
-                this.radius = Math.random() * 2 + 1;
-                this.color = Math.random() > 0.3 ? 'rgba(218, 41, 28,' : 'rgba(255, 255, 255,';
+                this.vx = (Math.random() - 0.5) * 0.6;
+                this.vy = (Math.random() - 0.5) * 0.6;
+                this.radius = Math.random() * 1.8 + 1;
+                this.color = Math.random() > 0.35 ? 'rgba(218, 41, 28,' : 'rgba(255, 255, 255,';
             }
 
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = this.color + ' 0.6)';
+                ctx.fillStyle = this.color + ' 0.5)';
                 ctx.fill();
             }
 
@@ -562,8 +583,8 @@
                     let dist = Math.sqrt(dx * dx + dy * dy);
                     if (dist < mouse.radius) {
                         let force = (mouse.radius - dist) / mouse.radius;
-                        this.x -= (dx / dist) * force * 3;
-                        this.y -= (dy / dist) * force * 3;
+                        this.x -= (dx / dist) * force * 2.5;
+                        this.y -= (dy / dist) * force * 2.5;
                     }
                 }
 
@@ -588,10 +609,10 @@
                     let dy = particles[i].y - particles[j].y;
                     let dist = Math.sqrt(dx * dx + dy * dy);
 
-                    if (dist < 110) {
-                        let alpha = 1 - (dist / 110);
-                        ctx.strokeStyle = `rgba(218, 41, 28, ${alpha * 0.25})`;
-                        ctx.lineWidth = 0.8;
+                    if (dist < 100) {
+                        let alpha = 1 - (dist / 100);
+                        ctx.strokeStyle = `rgba(218, 41, 28, ${alpha * 0.22})`;
+                        ctx.lineWidth = 0.7;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -605,31 +626,34 @@
         }
         animateCanvas();
 
-        /* ================= 2. 3D CARD TILT & SPOTLIGHT ================= */
+        /* ================= 2. DESKTOP-ONLY 3D TILT ================= */
         const card = document.getElementById('tilt-card');
+        const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-        document.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+        if (canHover) {
+            document.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
 
-            card.style.setProperty('--mouse-x', `${x}px`);
-            card.style.setProperty('--mouse-y', `${y}px`);
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
 
-            const cardCenterX = rect.left + rect.width / 2;
-            const cardCenterY = rect.top + rect.height / 2;
-            const deltaX = (e.clientX - cardCenterX) / 25;
-            const deltaY = (e.clientY - cardCenterY) / 25;
+                const cardCenterX = rect.left + rect.width / 2;
+                const cardCenterY = rect.top + rect.height / 2;
+                const deltaX = (e.clientX - cardCenterX) / 28;
+                const deltaY = (e.clientY - cardCenterY) / 28;
 
-            const rotX = Math.max(Math.min(-deltaY, 8), -8);
-            const rotY = Math.max(Math.min(deltaX, 8), -8);
+                const rotX = Math.max(Math.min(-deltaY, 6), -6);
+                const rotY = Math.max(Math.min(deltaX, 6), -6);
 
-            card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
-        });
+                card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+            });
 
-        window.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-        });
+            window.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+        }
 
         /* ================= 3. ROLE SELECTOR ================= */
         function selectRole(index, roleName) {
@@ -674,7 +698,7 @@
             }
         }
 
-        /* ================= 5. FORM LOADING STATE ================= */
+        /* ================= 5. FORM SUBMISSION ================= */
         document.getElementById('loginForm').addEventListener('submit', function() {
             const btn = document.getElementById('submitBtn');
             btn.classList.add('loading');
