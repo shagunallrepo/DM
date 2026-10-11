@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.D. International School, Bijnor - Official Portal</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --navy-dark: #081226;
+            --navy-primary: #0d1b3e;
+            --navy-card: #13234d;
+            --navy-light: #1e3268;
+            --accent-gold: #f59e0b;
+            --accent-gold-hover: #d97706;
+            --accent-red: #da291c;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --white: #ffffff;
+            --border-light: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* ================= 1. NAVIGATION BAR ================= */
+        .navbar {
+            background-color: var(--navy-dark);
+            padding: 0.9rem 4%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-logo-box {
+            background: #fff;
+            padding: 4px 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-box img {
+            height: 38px;
+            width: auto;
+        }
+
+        .nav-brand-text {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        .nav-brand-text span {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 500;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.8rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #ffffff;
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        .btn-student-login {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            padding: 8px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.25s ease;
+        }
+
+        .btn-student-login:hover {
+            background: var(--accent-red);
+            border-color: var(--accent-red);
+            transform: translateY(-1px);
+        }
+
+        /* ================= 2. HERO SECTION ================= */
+        .hero {
+            position: relative;
+            min-height: 580px;
+            background: url('1000009902.jpg') no-repeat center center / cover;
+            display: flex;
+            align-items: center;
+            padding: 4rem 6%;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(8, 18, 38, 0.88) 0%, rgba(8, 18, 38, 0.72) 50%, rgba(8, 18, 38, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 650px;
+            color: #ffffff;
+        }
+
+        .hero-tagline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #e2e8f0;
+            margin-bottom: 1rem;
+        }
+
+        .hero-tagline::after {
+            content: '';
+            display: inline-block;
+            width: 45px;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title span {
+            color: var(--accent-gold);
+        }
+
+        .hero-desc {
+            font-size: 1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .btn-explore {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent-gold);
+            color: #0f172a;
+            padding: 13px 26px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35);
+        }
+
+        .btn-explore:hover {
+            background: var(--accent-gold-hover);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .hero-script {
+            position: absolute;
+            top: 2.5rem;
+            right: 5%;
+            z-index: 2;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.6rem;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            pointer-events: none;
+        }
+
+        /* ================= 3. VALUE PILLARS ROW ================= */
+        .pillars-container {
+            position: relative;
+            z-index: 10;
+            margin-top: -65px;
+            padding: 0 4%;
+        }
+
+        .pillars-card {
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            padding: 1.8rem 1rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .pillar-item {
+            text-align: center;
+            padding: 0 12px;
+            border-right: 1px solid #f1f5f9;
+        }
+
+        .pillar-item:last-child {
+            border-right: none;
+        }
+
+        .pillar-icon {
+            width: 52px;
+            height: 52px;
+            background: #0d1b3e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px auto;
+            color: #ffffff;
+        }
+
+        .pillar-icon svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .pillar-item h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+            margin-bottom: 6px;
+        }
+
+        .pillar-item p {
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* ================= 4. ABOUT OUR SCHOOL ================= */
+        .about-section {
+            padding: 5rem 6%;
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .about-image-card img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .about-img-script {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.6rem;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .about-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(13, 27, 62, 0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 0 0 8px rgba(255,255,255,0.25);
+            transition: transform 0.2s ease;
+        }
+
+        .about-play-btn:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+
+        .section-badge::before {
+            content: '';
+            width: 24px;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--navy-dark);
+            margin-bottom: 1.2rem;
+            line-height: 1.25;
+        }
+
+        .section-desc {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .btn-navy {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--navy-primary);
+            color: #ffffff;
+            padding: 12px 26px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .btn-navy:hover {
+            background: var(--navy-dark);
+            transform: translateY(-2px);
+        }
+
+        /* ================= 5. COUNTER STATS BAR ================= */
+        .stats-bar {
+            background: var(--navy-primary);
+            padding: 3rem 6%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            color: #ffffff;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-gold);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* ================= 6. NOTICES & UPCOMING EVENTS ================= */
+        .dual-cards-section {
+            padding: 4.5rem 6%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .info-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-light);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .info-card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--navy-dark);
+        }
+
+        .view-all-link {
+            color: #2563eb;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .list-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f8fafc;
+        }
+
+        .list-row:last-child {
+            border-bottom: none;
+        }
+
+        .date-box {
+            background: var(--navy-primary);
+            color: #ffffff;
+            border-radius: 10px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+            flex-shrink: 0;
+        }
+
+        .date-day {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .date-month {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .list-info {
+            flex: 1;
+            padding: 0 16px;
+        }
+
+        .list-info h5 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--navy-dark);
+            margin-bottom: 3px;
+        }
+
+        .list-info span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .btn-download {
+            color: #2563eb;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* ================= 7. STUDENTS RESULT ================= */
+        .results-section {
+            padding: 3rem 6% 4.5rem 6%;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .toppers-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .topper-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 18px;
+            padding: 1.8rem 1.2rem;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .topper-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .crown-icon {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            color: var(--accent-gold);
+        }
+
+        .topper-avatar {
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            margin: 0 auto 12px auto;
+            border: 3px solid #f1f5f9;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+
+        .topper-avatar img {
+            width: 80%;
+            height: auto;
+        }
+
+        .topper-name {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--navy-dark);
+            margin-bottom: 4px;
+        }
+
+        .topper-class {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .percentage-badge {
+            background: var(--navy-primary);
+            color: #ffffff;
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 4px 16px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* ================= 8. GALLERY SECTION ================= */
+        .gallery-section {
+            background: var(--navy-dark);
+            padding: 4.5rem 6%;
+            display: grid;
+            grid-template-columns: 1fr 2.2fr;
+            gap: 3rem;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .gallery-photos {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .gallery-img-wrap {
+            border-radius: 14px;
+            overflow: hidden;
+            height: 160px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-img-wrap:hover img {
+            transform: scale(1.08);
+        }
+
+        /* ================= 9. FOOTER ================= */
+        .footer {
+            background: #050b18;
+            color: #94a3b8;
+            padding: 4rem 6% 1.5rem 6%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1.3fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-title {
+            color: #ffffff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            color: #94a3b8;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .social-icon-btn:hover {
+            background: var(--accent-red);
+        }
+
+        .footer-bottom {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.78rem;
+        }
+
+        .footer-bottom span.motto {
+            font-style: italic;
+            color: #cbd5e1;
+            font-weight: 600;
+        }
+
+        /* ================= 10. RESPONSIVE ================= */
+        @media (max-width: 1024px) {
+            .pillars-card {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+            .about-section, .dual-cards-section, .results-section, .gallery-section {
+                grid-template-columns: 1fr;
+            }
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-photos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .pillars-card {
+                grid-template-columns: 1fr;
+            }
+            .pillar-item {
+                border-right: none;
+                border-bottom: 1px solid #f1f5f9;
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+            }
+            .toppers-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. NAVIGATION -->
+    <header class="navbar">
+        <a href="home.html" class="nav-brand">
+            <div class="nav-logo-box">
+                <img src="1000009874.jpg" alt="MD Logo">
+            </div>
+            <div class="nav-brand-text">
+                M.D. INTERNATIONAL SCHOOL
+                <span>BIJNOR</span>
+            </div>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="home.html" class="active">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#academics">Academics</a></li>
+            <li><a href="#admission">Admission</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#notices">Notice</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <a href="index.html" class="btn-student-login">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Student Login
+        </a>
+    </header>
+
+    <!-- 2. HERO -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-script">Building Future Leaders</div>
+
+        <div class="hero-content">
+            <div class="hero-tagline">LEARN | GROW | ACHIEVE</div>
+            <h1 class="hero-title">Welcome to<br>M.D. International<br>School, <span>Bijnor</span></h1>
+            <p class="hero-desc">Nurturing young minds with strong values, quality education and a brighter future.</p>
+            <a href="#about" class="btn-explore">
+                Explore Our School
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- 3. PILLARS -->
+    <div class="pillars-container">
+        <div class="pillars-card">
+            <div class="pillar-item">
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                </div>
+                <h4>Quality Education</h4>
+                <p>Academic excellence with modern learning tools</p>
+            </div>
+            <div class="pillar-item">
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h4>Experienced Faculty</h4>
+                <p>Dedicated and supportive teachers</p>
+            </div>
+            <div class="pillar-item">
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <h4>Safe & Secure</h4>
+                <p>A nurturing and protective environment</p>
+            </div>
+            <div class="pillar-item">
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <h4>Holistic Development</h4>
+                <p>Sports, arts and life skills</p>
+            </div>
+            <div class="pillar-item">
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+                </div>
+                <h4>Modern Infrastructure</h4>
+                <p>Smart classrooms, labs and library</p>
+            </div>
+            <div class="pillar-item">
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h4>Student Support</h4>
+                <p>Guidance for a brighter tomorrow</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. ABOUT OUR SCHOOL -->
+    <section class="about-section" id="about">
+        <div class="about-image-card">
+            <img src="1000009902.jpg" alt="M.D. International School Building">
+            <div class="about-img-script">Where Learning Meets Excellence</div>
+            <div class="about-play-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            </div>
+        </div>
+
+        <div class="about-content">
+            <div class="section-badge">About Our School</div>
+            <h2 class="section-title">M.D. International School, Bijnor</h2>
+            <p class="section-desc">M.D. International School, Bijnor is committed to providing quality education and a supportive environment where every student can learn, grow and achieve their full potential. We focus on academic excellence, character building and overall development, preparing students for a brighter future.</p>
+            <a href="#about" class="btn-navy">
+                Know More
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- 5. COUNTER STATS -->
+    <section class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            </div>
+            <div>
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Happy Students</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h20v14H2z"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+            </div>
+            <div>
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Experienced Teachers</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="9" y2="6"/><line x1="15" y1="6" x2="15" y2="6"/></svg>
+            </div>
+            <div>
+                <div class="stat-number">25+</div>
+                <div class="stat-label">Years of Excellence</div>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            </div>
+            <div>
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Focus on Holistic Growth</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. NOTICES & UPCOMING EVENTS -->
+    <section class="dual-cards-section" id="notices">
+        <!-- Notices -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <div class="info-card-title">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    Notice & Circulars
+                </div>
+                <a href="#notices" class="view-all-link">View All &rarr;</a>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">26</div>
+                    <div class="date-month">Aug</div>
+                </div>
+                <div class="list-info">
+                    <h5>Mid Term Exam Schedule 2026-27</h5>
+                </div>
+                <a href="#" class="btn-download">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download
+                </a>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">18</div>
+                    <div class="date-month">Aug</div>
+                </div>
+                <div class="list-info">
+                    <h5>School Reopening Notice</h5>
+                </div>
+                <a href="#" class="btn-download">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download
+                </a>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">10</div>
+                    <div class="date-month">Aug</div>
+                </div>
+                <div class="list-info">
+                    <h5>Fee Payment Guidelines</h5>
+                </div>
+                <a href="#" class="btn-download">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download
+                </a>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">02</div>
+                    <div class="date-month">Aug</div>
+                </div>
+                <div class="list-info">
+                    <h5>Health & Safety Guidelines</h5>
+                </div>
+                <a href="#" class="btn-download">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Download
+                </a>
+            </div>
+        </div>
+
+        <!-- Events -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <div class="info-card-title">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Upcoming Events
+                </div>
+                <a href="#notices" class="view-all-link">View All &rarr;</a>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">05</div>
+                    <div class="date-month">Sep</div>
+                </div>
+                <div class="list-info">
+                    <h5>Teachers' Day Celebration</h5>
+                    <span>Time: 10:00 AM | School Auditorium</span>
+                </div>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">12</div>
+                    <div class="date-month">Sep</div>
+                </div>
+                <div class="list-info">
+                    <h5>Annual Sports Day</h5>
+                    <span>Time: 8:00 AM | School Ground</span>
+                </div>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">20</div>
+                    <div class="date-month">Sep</div>
+                </div>
+                <div class="list-info">
+                    <h5>Parent-Teacher Meeting</h5>
+                    <span>Time: 10:00 AM | Respective Classrooms</span>
+                </div>
+            </div>
+
+            <div class="list-row">
+                <div class="date-box">
+                    <div class="date-day">28</div>
+                    <div class="date-month">Sep</div>
+                </div>
+                <div class="list-info">
+                    <h5>Inter-School Cultural Fest</h5>
+                    <span>Time: 4:00 PM | School Auditorium</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. STUDENTS RESULT -->
+    <section class="results-section">
+        <div class="results-info">
+            <div class="section-badge">Our Achievements</div>
+            <h2 class="section-title">Students Result</h2>
+            <p class="section-desc">We are proud of our students for their hard work, dedication and excellent performance.</p>
+            <a href="#notices" class="btn-navy">
+                View All Results
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+
+        <div class="toppers-grid">
+            <div class="topper-card">
+                <div class="crown-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5m14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/></svg>
+                </div>
+                <div class="topper-avatar">
+                    <img src="1000009874.jpg" alt="Student Topper">
+                </div>
+                <div class="topper-name">BHAVYA BHARDWAJ</div>
+                <div class="topper-class">Class - X</div>
+                <div class="percentage-badge">98%</div>
+            </div>
+
+            <div class="topper-card">
+                <div class="topper-avatar">
+                    <img src="1000009874.jpg" alt="Student Topper">
+                </div>
+                <div class="topper-name">DIVYANSHI & VEDANSH</div>
+                <div class="topper-class">Class - XII</div>
+                <div class="percentage-badge">97%</div>
+            </div>
+
+            <div class="topper-card">
+                <div class="topper-avatar">
+                    <img src="1000009874.jpg" alt="Student Topper">
+                </div>
+                <div class="topper-name">ANSHIKA SHARMA</div>
+                <div class="topper-class">Class - X</div>
+                <div class="percentage-badge">96%</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. GALLERY -->
+    <section class="gallery-section" id="gallery">
+        <div>
+            <div class="section-badge">Our Gallery</div>
+            <h2 class="section-title" style="color: #fff;">Moments That Matter</h2>
+            <p class="section-desc" style="color: #94a3b8;">Explore our school life, events, and activities.</p>
+            <a href="#gallery" class="btn-navy" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">
+                View Gallery
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+        </div>
+
+        <div class="gallery-photos">
+            <div class="gallery-img-wrap"><img src="1000009902.jpg" alt="Gallery Photo 1"></div>
+            <div class="gallery-img-wrap"><img src="1000009902.jpg" alt="Gallery Photo 2"></div>
+            <div class="gallery-img-wrap"><img src="1000009902.jpg" alt="Gallery Photo 3"></div>
+            <div class="gallery-img-wrap"><img src="1000009902.jpg" alt="Gallery Photo 4"></div>
+        </div>
+    </section>
+
+    <!-- 9. FOOTER -->
+    <footer class="footer" id="contact">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo-box">
+                    <div class="nav-logo-box" style="padding: 2px 6px;">
+                        <img src="1000009874.jpg" alt="Logo" style="height: 32px;">
+                    </div>
+                    <div class="nav-brand-text">
+                        M.D. INTERNATIONAL SCHOOL
+                        <span>BIJNOR</span>
+                    </div>
+                </div>
+                <p style="font-size: 0.85rem; line-height: 1.6; color: #64748b; max-width: 280px;">
+                    Committed to providing holistic education and nurturing future leaders with excellence and discipline.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#academics">Academics</a></li>
+                    <li><a href="#admission">Admission</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#notices">Notice</a></li>
+                    <li><a href="index.html">Student Login</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Contact Us</h4>
+                <div class="contact-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +91 98765 43210
+                </div>
+                <div class="contact-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    info@mdinternationalschool.in
+                </div>
+                <div class="contact-item">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Bijnor, Uttar Pradesh - 246701
+                </div>
+            </div>
+
+            <div>
+                <h4 class="footer-title">Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#" class="social-icon-btn" aria-label="Facebook">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="Instagram">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                    </a>
+                    <a href="#" class="social-icon-btn" aria-label="YouTube">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#050b18"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>&copy; 2026 M.D. International School, Bijnor. All Rights Reserved.</div>
+            <span class="motto">Educate | Empower | Excel</span>
+        </div>
+    </footer>
+
+</body>
+</html>
