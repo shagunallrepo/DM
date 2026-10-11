@@ -420,22 +420,29 @@
     <div id="toast">Saved Successfully!</div>
 
     <script>
-        // Check Admin Session
-        const token = sessionStorage.getItem('adminToken');
-        if (!token) {
-            alert('Admin session expired. Please log in as Shagun.');
-            window.location.href = 'index.html';
-        }
+    // Check URL query param or sessionStorage for authentication
+    const urlParams = new URLSearchParams(window.location.search);
+    let token = urlParams.get('auth') || sessionStorage.getItem('adminToken');
 
-        let siteData = {};
+    if (token === 'admin-auth-session-token-9988') {
+        sessionStorage.setItem('adminToken', token);
+        // Clean URL parameter without reloading
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else {
+        alert('Admin session expired. Please log in as Shagun.');
+        window.location.href = 'index.html';
+    }
 
-        // Fetch Current Content
-        fetch('/api/content')
-            .then(res => res.json())
-            .then(data => {
-                siteData = data;
-                populateForm();
-            });
+    let siteData = {};
+
+    // Fetch Current Content
+    fetch('/api/content')
+        .then(res => res.json())
+        .then(data => {
+            siteData = data;
+            populateForm();
+        });
+// ... rest of admin.html script continues as before ...
 
         function populateForm() {
             // Socials
