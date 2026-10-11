@@ -109,7 +109,7 @@
             box-shadow: 
                 0 30px 60px -12px rgba(0, 0, 0, 0.65), 
                 0 0 35px -10px var(--primary-glow),
-                inset 0 1px 1px 0 rgba(255, 255, 255, 0.25); /* Premium glass top-edge reflection */
+                inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
             overflow: hidden;
             transition: box-shadow 0.3s ease;
         }
@@ -408,6 +408,52 @@
             transform: translateY(0);
         }
 
+        /* 6. Enter As A Guest Button */
+        .btn-guest {
+            position: relative;
+            width: 100%;
+            padding: 12px;
+            margin-top: 0.8rem;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-guest svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text-muted);
+            transition: stroke 0.2s ease;
+        }
+
+        .btn-guest:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn-guest:hover svg {
+            stroke: #ffffff;
+        }
+
+        .btn-guest:active {
+            transform: translateY(0);
+        }
+
         .spinner {
             display: none;
             width: 18px;
@@ -431,7 +477,7 @@
         }
 
         .card-bottom {
-            margin-top: 1.45rem;
+            margin-top: 1.35rem;
             text-align: center;
             font-size: 0.78rem;
             color: var(--text-muted);
@@ -498,7 +544,7 @@
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            <input type="text" name="identifier" required placeholder="e.g. STU-2026-001" autocomplete="username">
+                            <input type="text" name="identifier" id="identifierInput" required placeholder="e.g. STU-2026-001" autocomplete="username">
                         </div>
                     </div>
 
@@ -535,6 +581,16 @@
                         <div class="spinner"></div>
                     </button>
 
+                    <!-- Enter As A Guest Button -->
+                    <button type="button" class="btn-guest" id="guestBtn" onclick="enterAsGuest()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>ENTER AS A GUEST</span>
+                    </button>
+
                     <!-- Footer -->
                     <div class="card-bottom">
                         <p>© 2026 M D International School • <a href="#">IT Support</a></p>
@@ -559,7 +615,20 @@
                 logoImg.src = '1000009874.jpg';
             });
 
-        /* ================= 1. CANVAS PARTICLES ================= */
+        /* ================= 1. GUEST LOGIN HANDLER ================= */
+        function enterAsGuest() {
+            // Fill default guest credentials and submit or redirect
+            document.getElementById('identifierInput').value = 'GUEST-USER';
+            document.getElementById('passwordInput').value = 'guest12345';
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.classList.add('loading');
+
+            // Submits form to login endpoint or redirect as preferred
+            document.getElementById('loginForm').submit();
+        }
+
+        /* ================= 2. CANVAS PARTICLES ================= */
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -661,7 +730,7 @@
         }
         animateCanvas();
 
-        /* ================= 2. DESKTOP-ONLY 3D TILT ================= */
+        /* ================= 3. DESKTOP-ONLY 3D TILT ================= */
         const card = document.getElementById('tilt-card');
         const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
@@ -690,7 +759,7 @@
             });
         }
 
-        /* ================= 3. ROLE SELECTOR ================= */
+        /* ================= 4. ROLE SELECTOR ================= */
         function selectRole(index, roleName) {
             const indicator = document.getElementById('role-indicator');
             const buttons = document.querySelectorAll('.role-btn');
@@ -713,7 +782,7 @@
             }
         }
 
-        /* ================= 4. SHOW / HIDE PASSWORD ================= */
+        /* ================= 5. SHOW / HIDE PASSWORD ================= */
         function togglePasswordVisibility() {
             const pwdInput = document.getElementById('passwordInput');
             const eyeIcon = document.getElementById('eyeIcon');
@@ -733,7 +802,7 @@
             }
         }
 
-        /* ================= 5. FORM SUBMISSION ================= */
+        /* ================= 6. FORM SUBMISSION ================= */
         document.getElementById('loginForm').addEventListener('submit', function() {
             const btn = document.getElementById('submitBtn');
             btn.classList.add('loading');
