@@ -5,198 +5,273 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M D International School - Portal Login</title>
     <style>
-        /* Color Palette matching the MD International School Logo */
         :root {
-            --primary-red: #da291c;
-            --dark-text: #1a1a1a;
-            --light-gray: #e1e1e1;
-            --bg-color: #f4f7f6;
+            --school-red: #da291c;
+            --school-dark: #121826;
+            --card-bg: rgba(255, 255, 255, 0.88);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
         }
 
-        /* Animated Background Gradient */
         body {
-            background: linear-gradient(-45deg, #f4f7f6, #ffffff, #fceceb, #ffffff);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
+            background: #0f141d;
+            overflow: hidden;
+            position: relative;
+            padding: 1.5rem;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* Continuous Floating Ambient Orbs */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
         }
 
-        /* Main Login Card with Slide-Up Animation */
-        .login-container {
-            background: white;
-            padding: 2.5rem 2rem;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        .orb-1 {
+            width: 320px;
+            height: 320px;
+            background: #da291c;
+            top: 10%;
+            left: 15%;
+            animation: driftOne 12s ease-in-out infinite alternate;
+        }
+
+        .orb-2 {
+            width: 380px;
+            height: 380px;
+            background: #ff5b4d;
+            bottom: 10%;
+            right: 15%;
+            animation: driftTwo 14s ease-in-out infinite alternate;
+        }
+
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: #3b82f6;
+            bottom: 40%;
+            left: 30%;
+            animation: driftThree 10s ease-in-out infinite alternate;
+            opacity: 0.25;
+        }
+
+        @keyframes driftOne {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(80px, 60px) scale(1.15); }
+            100% { transform: translate(-40px, 100px) scale(0.9); }
+        }
+
+        @keyframes driftTwo {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-70px, -50px) scale(1.2); }
+            100% { transform: translate(50px, -80px) scale(0.95); }
+        }
+
+        @keyframes driftThree {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, -60px) scale(1.2); }
+        }
+
+        /* Glassmorphic Login Card */
+        .login-card {
+            position: relative;
+            z-index: 10;
             width: 100%;
             max-width: 420px;
-            animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            padding: 2.5rem 2rem;
+            animation: cardEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        @keyframes slideUp {
-            0% { transform: translateY(30px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+        @keyframes cardEntrance {
+            0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Logo Animation */
-        .logo-container {
+        /* Logo Floating Animation */
+        .logo-wrap {
             text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .logo-container img {
-            max-width: 220px;
-            height: auto;
-            animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-            animation-delay: 0.2s; /* Delays slightly after the card slides up */
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Text Styling */
-        .login-header {
-            text-align: center;
-            color: var(--dark-text);
-            margin-bottom: 2rem;
-        }
-        
-        .login-header h2 {
-            font-size: 1.4rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .login-header p {
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        /* Form Inputs */
-        .input-group {
             margin-bottom: 1.5rem;
+        }
+
+        .logo-wrap img {
+            max-width: 210px;
+            height: auto;
+            animation: gentleFloat 4s ease-in-out infinite;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.1));
+        }
+
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-title h2 {
+            color: var(--school-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .login-title p {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Animated Input Groups */
+        .input-group {
+            margin-bottom: 1.4rem;
             position: relative;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            color: #444;
-            font-size: 0.9rem;
+            margin-bottom: 0.45rem;
+            font-size: 0.85rem;
             font-weight: 600;
+            color: #334155;
+            transition: color 0.3s ease;
         }
 
         .input-group input {
             width: 100%;
-            padding: 0.85rem 1rem;
-            border: 2px solid var(--light-gray);
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+            padding: 0.9rem 1.1rem;
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
             outline: none;
-            background-color: #fafafa;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Input Focus Animations */
         .input-group input:focus {
-            border-color: var(--primary-red);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(218, 41, 28, 0.1);
+            border-color: var(--school-red);
+            box-shadow: 0 0 0 4px rgba(218, 41, 28, 0.15);
+            transform: translateY(-1px);
         }
 
-        /* Submit Button Animations */
-        .btn-login {
+        /* Animated Glowing Button */
+        .btn-submit {
+            position: relative;
             width: 100%;
-            padding: 0.9rem;
-            background-color: var(--primary-red);
-            color: white;
+            padding: 0.95rem;
+            margin-top: 0.8rem;
+            background: linear-gradient(135deg, #da291c 0%, #b81f14 100%);
             border: none;
-            border-radius: 8px;
-            font-size: 1.05rem;
-            font-weight: bold;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
             cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(218, 41, 28, 0.35);
             transition: all 0.3s ease;
-            margin-top: 0.5rem;
         }
 
-        .btn-login:hover {
-            background-color: #bd1f14;
+        /* Light sweep shimmer effect across button */
+        .btn-submit::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(25deg);
+            animation: shimmer 3.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -60%; }
+            30% { left: 130%; }
+            100% { left: 130%; }
+        }
+
+        .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(218, 41, 28, 0.25);
+            box-shadow: 0 12px 26px rgba(218, 41, 28, 0.5);
         }
 
-        .btn-login:active {
+        .btn-submit:active {
             transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(218, 41, 28, 0.2);
         }
 
-        /* Footer Links */
-        .footer-links {
+        /* Bottom helper links */
+        .card-footer {
+            margin-top: 1.5rem;
             display: flex;
             justify-content: space-between;
-            margin-top: 1.5rem;
             font-size: 0.85rem;
         }
 
-        .footer-links a {
-            color: var(--primary-red);
+        .card-footer a {
+            color: #64748b;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            transition: color 0.2s ease;
         }
 
-        .footer-links a:hover {
-            color: var(--dark-text);
-            text-decoration: underline;
+        .card-footer a:hover {
+            color: var(--school-red);
         }
     </style>
 </head>
 <body>
 
-    <div class="login-container">
-        <!-- Logo references your file verbatim -->
-        <div class="logo-container">
+    <!-- Ambient Glowing Background Elements -->
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+
+    <!-- Login Container -->
+    <div class="login-card">
+        <div class="logo-wrap">
             <img src="1000009874.jpg" alt="M D International School Logo">
         </div>
-        
-        <div class="login-header">
+
+        <div class="login-title">
             <h2>School Portal</h2>
-            <p>Welcome back. Please sign in to continue.</p>
+            <p>Enter your credentials to continue</p>
         </div>
 
         <form action="/login-endpoint" method="POST">
             <div class="input-group">
-                <label for="email">Student / Staff Email</label>
-                <input type="email" id="email" name="email" required placeholder="username@school.edu">
+                <label for="email">Student / Employee ID</label>
+                <input type="text" id="email" name="email" required placeholder="e.g. STU-2024-001">
             </div>
-            
+
             <div class="input-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required placeholder="••••••••">
             </div>
 
-            <button type="submit" class="btn-login">Sign In</button>
-            
-            <div class="footer-links">
-                <a href="#">Forgot Password?</a>
-                <a href="#">Help Desk</a>
+            <button type="submit" class="btn-submit">Sign In</button>
+
+            <div class="card-footer">
+                <a href="#">Forgot password?</a>
+                <a href="#">Contact Administration</a>
             </div>
         </form>
     </div>
