@@ -615,19 +615,15 @@
                 logoImg.src = '1000009874.jpg';
             });
 
-        /* ================= 1. GUEST LOGIN HANDLER ================= */
-        function enterAsGuest() {
-            // Fill default guest credentials and submit or redirect
-            document.getElementById('identifierInput').value = 'GUEST-USER';
-            document.getElementById('passwordInput').value = 'guest12345';
-            
-            const submitBtn = document.getElementById('submitBtn');
-            submitBtn.classList.add('loading');
-
-            // Submits form to login endpoint or redirect as preferred
-            document.getElementById('loginForm').submit();
-        }
-
+ 
+/* ================= 1. GUEST LOGIN HANDLER ================= */
+function enterAsGuest() {
+    const submitBtn = document.getElementById('submitBtn');
+    if (submitBtn) submitBtn.classList.add('loading');
+    
+    // Redirect directly to the School Portal Home Page
+    window.location.href = 'home.html';
+}
         /* ================= 2. CANVAS PARTICLES ================= */
         const canvas = document.getElementById('particle-canvas');
         const ctx = canvas.getContext('2d');
