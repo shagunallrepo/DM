@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.D. International School - Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #da291c;
+            --primary-hover: #b81f14;
+            --navy-dark: #070d1d;
+            --navy-surface: #0e172c;
+            --navy-card: #15223e;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-gold: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--navy-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header */
+        header {
+            background: var(--navy-surface);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-brand img {
+            height: 38px;
+            background: #fff;
+            padding: 4px 8px;
+            border-radius: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-view {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border: 1px solid var(--border);
+        }
+
+        .btn-view:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-save {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-save:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-logout {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-logout:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Container */
+        main {
+            flex: 1;
+            padding: 2.5rem 5%;
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .dashboard-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Sections Grid */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .panel-card {
+            background: var(--navy-surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.8rem;
+        }
+
+        .panel-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-gold);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .form-group input, .form-group textarea {
+            background: var(--navy-card);
+            border: 1px solid var(--border);
+            padding: 11px 14px;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        /* Gallery Manager */
+        .gallery-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 110px;
+            border: 1px solid var(--border);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-delete {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(220, 38, 38, 0.85);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* List Items (Notices, Events) */
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .list-entry {
+            background: var(--navy-card);
+            padding: 10px 14px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border);
+        }
+
+        .list-entry-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .list-entry-date {
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .btn-add {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-gold);
+            border: 1px dashed var(--accent-gold);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add:hover {
+            background: rgba(245, 158, 11, 0.25);
+        }
+
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #10b981;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-brand">
+            <img src="/api/logo" alt="MD International School">
+            <div>
+                <h3 style="font-size: 1rem;">M.D. International School</h3>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Admin Panel • Logged in as <strong>Shagun</strong></span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <a href="home.html" target="_blank" class="btn btn-view">
+                Preview Guest Page &rarr;
+            </a>
+            <button class="btn btn-save" onclick="saveAllContent()">
+                Save All Changes
+            </button>
+            <button class="btn btn-logout" onclick="logout()">
+                Logout
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="dashboard-header">
+            <h1>Portal Content Manager</h1>
+            <p>Update links, gallery photos, notices, and events shown to guests on the main website.</p>
+        </div>
+
+        <div class="card-grid">
+            <!-- 1. Social Media Links -->
+            <div class="panel-card">
+                <div class="panel-title">1. Official Social Media Channels</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Facebook Page Link</label>
+                        <input type="text" id="fbLink">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram Profile Link</label>
+                        <input type="text" id="instaLink">
+                    </div>
+                    <div class="form-group">
+                        <label>YouTube Channel Link</label>
+                        <input type="text" id="ytLink">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Gallery Management -->
+            <div class="panel-card">
+                <div class="panel-title">2. Photo Gallery ("Moments That Matter")</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Add Image by URL or Local Filename</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="newImgUrl" placeholder="e.g. 1000009902.jpg or https://..." style="flex:1;">
+                            <button class="btn btn-save" style="padding: 0 16px;" onclick="addGalleryImage()">Add</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Or Upload New Photo File</label>
+                        <input type="file" id="fileUpload" accept="image/*" onchange="uploadLocalImage(event)">
+                    </div>
+                </div>
+
+                <div class="gallery-preview" id="galleryContainer"></div>
+            </div>
+
+            <!-- 3. Notices & Circulars -->
+            <div class="panel-card">
+                <div class="panel-title">3. Notice & Circulars Board</div>
+                <div class="items-list" id="noticesContainer"></div>
+                <button class="btn-add" onclick="addNoticePrompt()">+ Add New Notice</button>
+            </div>
+
+            <!-- 4. Upcoming Events -->
+            <div class="panel-card">
+                <div class="panel-title">4. Upcoming Events</div>
+                <div class="items-list" id="eventsContainer"></div>
+                <button class="btn-add" onclick="addEventPrompt()">+ Add New Event</button>
+            </div>
+
+            <!-- 5. School Contact Info -->
+            <div class="panel-card">
+                <div class="panel-title">5. School Contact Information</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="contactPhone">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="text" id="contactEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Campus Address</label>
+                        <input type="text" id="contactAddress">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="toast">Saved Successfully!</div>
+
+    <script>
+        // Check Admin Session
+        const token = sessionStorage.getItem('adminToken');
+        if (!token) {
+            alert('Admin session expired. Please log in as Shagun.');
+            window.location.href = 'index.html';
+        }
+
+        let siteData = {};
+
+        // Fetch Current Content
+        fetch('/api/content')
+            .then(res => res.json())
+            .then(data => {
+                siteData = data;
+                populateForm();
+            });
+
+        function populateForm() {
+            // Socials
+            document.getElementById('fbLink').value = siteData.socials?.facebook || '';
+            document.getElementById('instaLink').value = siteData.socials?.instagram || '';
+            document.getElementById('ytLink').value = siteData.socials?.youtube || '';
+
+            // Contacts
+            document.getElementById('contactPhone').value = siteData.contact?.phone || '';
+            document.getElementById('contactEmail').value = siteData.contact?.email || '';
+            document.getElementById('contactAddress').value = siteData.contact?.address || '';
+
+            // Gallery
+            renderGallery();
+
+            // Notices
+            renderNotices();
+
+            // Events
+            renderEvents();
+        }
+
+        // Render Gallery
+        function renderGallery() {
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = '';
+            (siteData.gallery || []).forEach((src, idx) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img src="${src}">
+                    <button class="gallery-delete" onclick="removeGallery(${idx})">&times;</button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function addGalleryImage() {
+            const url = document.getElementById('newImgUrl').value.trim();
+            if (url) {
+                siteData.gallery.push(url);
+                document.getElementById('newImgUrl').value = '';
+                renderGallery();
+            }
+        }
+
+        function uploadLocalImage(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    siteData.gallery.push(evt.target.result);
+                    renderGallery();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeGallery(idx) {
+            siteData.gallery.splice(idx, 1);
+            renderGallery();
+        }
+
+        // Render Notices
+        function renderNotices() {
+            const container = document.getElementById('noticesContainer');
+            container.innerHTML = '';
+            (siteData.notices || []).forEach((n, idx) => {
+                const el = document.createElement('div');
+                el.className = 'list-entry';
+                el.innerHTML = `
+                    <div class="list-entry-info">
+                        <span class="list-entry-date">${n.day} ${n.month}</span>
+                        <span>${n.title}</span>
+                    </div>
+                    <button class="btn btn-logout" style="padding: 4px 10px;" onclick="removeNotice(${idx})">Delete</button>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function addNoticePrompt() {
+            const title = prompt('Enter Notice Title:');
+            if (title) {
+                const day = prompt('Enter Day (e.g. 15):', '15');
+                const month = prompt('Enter Month (e.g. Sep):', 'Sep');
+                siteData.notices.unshift({ day, month, title });
+                renderNotices();
+            }
+        }
+
+        function removeNotice(idx) {
+            siteData.notices.splice(idx, 1);
+            renderNotices();
+        }
+
+        // Render Events
+        function renderEvents() {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = '';
+            (siteData.events || []).forEach((ev, idx) => {
+                const el = document.createElement('div');
+                el.className = 'list-entry';
+                el.innerHTML = `
+                    <div class="list-entry-info">
+                        <span class="list-entry-date" style="background: var(--navy-dark);">${ev.day} ${ev.month}</span>
+                        <div>
+                            <div><strong>${ev.title}</strong></div>
+                            <small style="color: var(--text-muted);">${ev.time}</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-logout" style="padding: 4px 10px;" onclick="removeEvent(${idx})">Delete</button>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function addEventPrompt() {
+            const title = prompt('Enter Event Title:');
+            if (title) {
+                const day = prompt('Enter Day (e.g. 05):', '05');
+                const month = prompt('Enter Month (e.g. Oct):', 'Oct');
+                const time = prompt('Enter Time & Location:', '10:00 AM | School Auditorium');
+                siteData.events.unshift({ day, month, title, time });
+                renderEvents();
+            }
+        }
+
+        function removeEvent(idx) {
+            siteData.events.splice(idx, 1);
+            renderEvents();
+        }
+
+        // Save All Changes to Server
+        function saveAllContent() {
+            siteData.socials.facebook = document.getElementById('fbLink').value.trim();
+            siteData.socials.instagram = document.getElementById('instaLink').value.trim();
+            siteData.socials.youtube = document.getElementById('ytLink').value.trim();
+
+            siteData.contact.phone = document.getElementById('contactPhone').value.trim();
+            siteData.contact.email = document.getElementById('contactEmail').value.trim();
+            siteData.contact.address = document.getElementById('contactAddress').value.trim();
+
+            fetch('/api/content', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(siteData)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.success) {
+                    showToast('All changes saved to live website!');
+                } else {
+                    alert('Error: ' + res.message);
+                }
+            })
+            .catch(err => alert('Failed to connect to server'));
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function logout() {
+            sessionStorage.removeItem('adminToken');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
