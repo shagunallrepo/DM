@@ -6,12 +6,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, 'data.json');
 
-// Middleware
+// Middleware to parse form submissions and JSON
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.json({ limit: '50mb' }));
 
-// Initial default content for the school website
+// Initial default content
 const DEFAULT_CONTENT = {
     socials: {
         facebook: "https://www.facebook.com/mdis.bijnor.2025",
@@ -48,14 +48,12 @@ const DEFAULT_CONTENT = {
     ]
 };
 
-// Ensure data.json exists
 if (!fs.existsSync(DATA_FILE)) {
     fs.writeFileSync(DATA_FILE, JSON.stringify(DEFAULT_CONTENT, null, 2));
 }
 
-// 1. Bulletproof Logo Serving Endpoint
+// 1. Logo serving route
 app.get('/api/logo', (req, res) => {
-    // Check if user uploaded MD International School Logo (3).html
     const possiblePaths = [
         path.join(__dirname, 'public', 'MD International School Logo (3).html'),
         path.join(__dirname, 'MD International School Logo (3).html')
@@ -78,31 +76,45 @@ app.get('/api/logo', (req, res) => {
         }
     }
 
-    // Fallback to image file if found
     const imgPath = path.join(__dirname, 'public', '1000009874.jpg');
     if (fs.existsSync(imgPath)) {
         return res.sendFile(imgPath);
     }
 
-    // If neither exists, redirect to logo placeholder
     res.status(404).send('Logo not found');
 });
 
-// 2. Authentication Endpoint (Admin: Shagun / Developer)
-app.post('/api/login', (req, res) => {
-    const { identifier, password, role } = req.body;
+// 2. Direct Form Submission Route (Fixes "Cannot POST /login-endpoint")
+app.post('/login-endpoint', (req, res) => {
+    const { identifier, password } = req.body;
     
     // Check Admin credentials
+    if (identifier === 'Shagun' && password === 'Developer') {
+        return res.redirect('/admin.html?auth=admin-auth-session-token-9988');
+    }
+
+    // Guest login
+    if (identifier === 'GUEST-USER') {
+        return res.redirect('/home.html');
+    }
+
+    // Invalid credentials
+    return res.status(401).send('<script>alert("Invalid Username or Password!"); window.location.href="/";</script>');
+});
+
+// 3. AJAX/API Login Route
+app.post('/api/login', (req, res) => {
+    const { identifier, password } = req.body;
+    
     if (identifier === 'Shagun' && password === 'Developer') {
         return res.json({
             success: true,
             role: 'Admin',
             token: 'admin-auth-session-token-9988',
-            redirect: '/admin.html'
+            redirect: '/admin.html?auth=admin-auth-session-token-9988'
         });
     }
 
-    // Regular student/guest fallback
     if (identifier === 'GUEST-USER') {
         return res.json({
             success: true,
@@ -111,14 +123,13 @@ app.post('/api/login', (req, res) => {
         });
     }
 
-    // Invalid credentials
     return res.status(401).json({
         success: false,
         message: 'Invalid Username or Password!'
     });
 });
 
-// 3. Get Site Content
+// 4. Content APIs
 app.get('/api/content', (req, res) => {
     try {
         const raw = fs.readFileSync(DATA_FILE, 'utf8');
@@ -128,7 +139,6 @@ app.get('/api/content', (req, res) => {
     }
 });
 
-// 4. Save Site Content (Admin Only)
 app.post('/api/content', (req, res) => {
     const authHeader = req.headers['authorization'];
     if (authHeader !== 'Bearer admin-auth-session-token-9988') {
@@ -137,13 +147,13 @@ app.post('/api/content', (req, res) => {
 
     try {
         fs.writeFileSync(DATA_FILE, JSON.stringify(req.body, null, 2));
-        res.json({ success: true, message: 'Website content updated successfully!' });
+        res.json({ success: true, message: 'Content updated successfully!' });
     } catch (err) {
         res.status(500).json({ success: false, message: 'Failed to write data' });
     }
 });
 
-// Root fallback
+// Root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
