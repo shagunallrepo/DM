@@ -798,11 +798,10 @@ function enterAsGuest() {
             }
         }
 
-        /* ================= 6. FORM SUBMISSION ================= */
-        document.getElementById('loginForm').addEventListener('submit', function() {
-            const btn = document.getElementById('submitBtn');
-            btn.classList.add('loading');
-        });
-    </script>
-</body>
-</html>
+
+/* ================= 6. FORM SUBMISSION ================= */
+document.getElementById('loginForm').addEventListener('submit', function() {
+    const btn = document.getElementById('submitBtn');
+    if (btn) btn.classList.add('loading');
+    // Allows the native form submit to /login-endpoint to process immediately
+});
