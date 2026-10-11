@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M D International School - Portal Login</title>
+    <style>
+        /* Color Palette matching the MD International School Logo */
+        :root {
+            --primary-red: #da291c;
+            --dark-text: #1a1a1a;
+            --light-gray: #e1e1e1;
+            --bg-color: #f4f7f6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Animated Background Gradient */
+        body {
+            background: linear-gradient(-45deg, #f4f7f6, #ffffff, #fceceb, #ffffff);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Main Login Card with Slide-Up Animation */
+        .login-container {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 420px;
+            animation: slideUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Logo Animation */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-container img {
+            max-width: 220px;
+            height: auto;
+            animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+            animation-delay: 0.2s; /* Delays slightly after the card slides up */
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Text Styling */
+        .login-header {
+            text-align: center;
+            color: var(--dark-text);
+            margin-bottom: 2rem;
+        }
+        
+        .login-header h2 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .login-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Form Inputs */
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #444;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+            background-color: #fafafa;
+        }
+
+        /* Input Focus Animations */
+        .input-group input:focus {
+            border-color: var(--primary-red);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(218, 41, 28, 0.1);
+        }
+
+        /* Submit Button Animations */
+        .btn-login {
+            width: 100%;
+            padding: 0.9rem;
+            background-color: var(--primary-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .btn-login:hover {
+            background-color: #bd1f14;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(218, 41, 28, 0.25);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(218, 41, 28, 0.2);
+        }
+
+        /* Footer Links */
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .footer-links a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--dark-text);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <!-- Logo references your file verbatim -->
+        <div class="logo-container">
+            <img src="1000009874.jpg" alt="M D International School Logo">
+        </div>
+        
+        <div class="login-header">
+            <h2>School Portal</h2>
+            <p>Welcome back. Please sign in to continue.</p>
+        </div>
+
+        <form action="/login-endpoint" method="POST">
+            <div class="input-group">
+                <label for="email">Student / Staff Email</label>
+                <input type="email" id="email" name="email" required placeholder="username@school.edu">
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn-login">Sign In</button>
+            
+            <div class="footer-links">
+                <a href="#">Forgot Password?</a>
+                <a href="#">Help Desk</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
